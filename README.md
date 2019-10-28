@@ -17,8 +17,8 @@ from competition.subpackages.package import *
 
 with the contents of the deepest package (`package` in this example.) 
 
-Only absolute imports, and in particular, only imports of everything (`*`) are 
-recognized (this is by design).
+Only top-level absolute imports, and in particular, only imports of everything 
+(`*`) are recognized (this is by design).
 
 This does mean that you have to take extra care so that names do not clash.
 

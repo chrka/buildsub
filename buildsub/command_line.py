@@ -1,17 +1,19 @@
 import re
+import os.path
 
 import click
 
 
 def make_import_matcher(base):
     import_re = re.compile(
-        f"from (?P<path>{base}(\\.\\w+)+)\\s+import\\s+\\*.*")
+        f"^from (?P<path>{base}(\\.\\w+)+)\\s+import\\s+\\*.*")
 
     def matcher(s):
         match = import_re.match(s)
         if match:
             # TODO: Use proper path tools
-            return '/'.join(match.group('path').split(".")) + ".py"
+            packages = match.group('path').split(".")
+            return os.path.join(*packages[:-1], packages[-1] + '.py')
         else:
             return None
 
@@ -24,7 +26,9 @@ def process(input, output, matcher, visited):
         if include and include not in visited:
             visited.add(include)
             with open(include, "r") as include_input:
+                output.write(f"# BEGIN INCLUDE {include}\n")
                 process(include_input, output, matcher, visited)
+                output.write(f"# END INCLUDE {include}\n\n")
         else:
             output.write(line)
 
