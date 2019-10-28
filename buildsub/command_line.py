@@ -10,6 +10,7 @@ def make_import_matcher(base):
     def matcher(s):
         match = import_re.match(s)
         if match:
+            # TODO: Use proper path tools
             return '/'.join(match.group('path').split(".")) + ".py"
         else:
             return None
