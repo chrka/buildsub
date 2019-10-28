@@ -13,6 +13,7 @@ setup(
     author="Christoffer Karlsson",
     author_email="chrka@mac.com",
     license="MIT",
+    packages=['buildsub'],
     install_requires=['click'],
     zip_safe=False,
     long_description=long_description,
